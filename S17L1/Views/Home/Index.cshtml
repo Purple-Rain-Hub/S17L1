@@ -1,0 +1,18 @@
+﻿@model BooksViewModel
+@{
+	ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+	<h1>PROVA 1</h1>
+	@if (Model.Books != null && Model.Books.Any())
+	{
+		@foreach (var book in Model.Books)
+		{
+			<div>
+				<h2>@book.Titolo</h2>
+			</div>
+		}
+
+	}
+</div>
