@@ -5,14 +5,39 @@
 
 <div class="container">
 	<h1>PROVA 1</h1>
+	@if (TempData["Error"] != null)
+	{
+		<span class="text-danger">@TempData["Error"]</span>
+	}
 	@if (Model.Books != null && Model.Books.Any())
 	{
-		@foreach (var book in Model.Books)
-		{
-			<div>
-				<h2>@book.Titolo</h2>
-			</div>
-		}
+		<table class="table table-bordered table-hover">
+			<thead class="thead-dark ">
+				<tr class="text-center centroTab">
+					<th>Copertina</th>
+					<th>Titolo</th>
+					<th>Autore</th>
+					<th>Genere</th>
+					<th>Disponibilità</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var book in Model.Books)
+				{
+					<tr class="centroTab">
+						<td class="text-center"><img src=@book.Copertina width="100" /></td>
+						<td class="text-center">@book.Titolo</td>
+						<td class ="text-center">@book.Autore</td>
+						<td class="text-center">@book.Genere</td>
+						<td class="text-center">@book.Disponibilita</td>
+						<td class=" d-flex border-0">
+							<a class="mx-1 btn btn-warning" asp-controller="Home" asp-action="DetailsPage" asp-route-id="@book.Id">Dettagli</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
 
 	}
 </div>

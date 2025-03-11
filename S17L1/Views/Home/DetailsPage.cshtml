@@ -1,0 +1,17 @@
+﻿@model DetailsPageViewModel
+@{
+	ViewData["Title"] = "DETAILS PAGE";
+}
+
+<h1>Dettagli Libro</h1>
+<div class="d-flex">
+	<img src=@Model.Copertina width="200"/>
+	<div>
+		<h4>@Model.Titolo</h4>
+		<h6>di @Model.Autore</h6>
+		<h6>Genere: @Model.Genere</h6>
+		<p>@(Model.Disponibilita ? "Disponibile" : "Non disponibile")</p>
+		<a class="mx-1 btn btn-warning" asp-controller="Home" asp-action="EditPage" asp-route-id="@Model.Id">✏</a>
+		<a class="mx-1 btn btn-danger" asp-controller="Home" asp-action="Delete" asp-route-id="@Model.Id">❌</a>
+	</div>
+</div>

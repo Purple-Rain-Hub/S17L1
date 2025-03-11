@@ -1,0 +1,48 @@
+﻿@model AddPageViewModel
+@{
+	ViewData["Title"] = "ADD PAGE";
+}
+
+<h1>Aggiungi un Prodotto</h1>
+@if (TempData["Error"] != null)
+{
+	<span class="text-danger">@TempData["Error"]</span>
+}
+<div>
+	<form method="post" asp-controller="Home" asp-action="Add">
+		<div class="formGroup">
+			<label for="titolo" asp-for="Titolo" class="form-label"></label>
+			<input id="titolo" asp-for="Titolo" class="form-control" />
+			<span class="text-danger" asp-validation-for="Titolo"></span>
+		</div>
+
+		<div class="formGroup">
+			<label for="autore" asp-for="Autore" class="form-label"></label>
+			<input id="autore" asp-for="Autore" class="form-control" />
+			<span class="text-danger" asp-validation-for="Autore"></span>
+		</div>
+
+		<div class="formGroup">
+			<label for="genere" asp-for="Genere" class="form-label"></label>
+			<input id="genere" asp-for="Genere" class="form-control" />
+			<span class="text-danger" asp-validation-for="Genere"></span>
+		</div>
+
+		<div class="formGroup">
+			<label for="disponibilita" asp-for="Disponibilita" class="form-label"></label>
+			<input type="checkbox" id="disponibilita" asp-for="Disponibilita"/>
+			<span class="text-danger" asp-validation-for="Disponibilita"></span>
+		</div>
+
+		<div class="formGroup">
+			<label for="copertina" asp-for="Copertina" class="form-label"></label>
+			<input id="copertina" asp-for="Copertina" class="form-control" />
+			<span class="text-danger" asp-validation-for="Copertina"></span>
+		</div>
+
+		<div class="m-2 text-end">
+			<button class="btn btn-sm btn-success" type="submit">Save</button>
+			<button class="btn btn-sm btn-warning" type="reset">Reset</button>
+		</div>
+	</form>
+</div>
