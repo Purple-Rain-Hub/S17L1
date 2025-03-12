@@ -19,5 +19,7 @@ namespace S17L1.Models
         [Required]
         public bool Disponibilita { get; set; }
         public string? Copertina { get; set; }
+
+        public Borrow Borrow { get; set; }
     }
 }
