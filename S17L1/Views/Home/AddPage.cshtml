@@ -9,7 +9,7 @@
 	<span class="text-danger">@TempData["Error"]</span>
 }
 <div>
-	<form method="post" asp-controller="Home" asp-action="Add">
+	<form method="post" asp-controller="Home" asp-action="Add" enctype="multipart/form-data">
 		<div class="formGroup">
 			<label for="titolo" asp-for="Titolo" class="form-label"></label>
 			<input id="titolo" asp-for="Titolo" class="form-control" />
@@ -35,9 +35,9 @@
 		</div>
 
 		<div class="formGroup">
-			<label for="copertina" asp-for="Copertina" class="form-label"></label>
-			<input id="copertina" asp-for="Copertina" class="form-control" />
-			<span class="text-danger" asp-validation-for="Copertina"></span>
+			<label for="copertina" asp-for="FileCopertina" class="form-label"></label>
+			<input id="copertina" asp-for="FileCopertina" type="file"/>
+			<span class="text-danger" asp-validation-for="FileCopertina"></span>
 		</div>
 
 		<div class="m-2 text-end">

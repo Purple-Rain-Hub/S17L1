@@ -94,7 +94,7 @@ namespace S17L1.Controllers
                 Titolo = book.Titolo,
                 Genere = book.Genere,
                 Disponibilita = book.Disponibilita,
-                Copertina= book.Copertina
+                Copertina = book.Copertina
             };
 
             return View(bookEdit);

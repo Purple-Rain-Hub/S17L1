@@ -16,6 +16,7 @@ namespace S17L1.ViewModel
         public required string Genere { get; set; }
         [Required]
         public bool Disponibilita { get; set; }
+        public IFormFile? FileCopertina { get; set; }
         public string? Copertina { get; set; }
     }
 }

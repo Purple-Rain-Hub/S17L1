@@ -41,6 +41,16 @@ namespace S17L1.Services
 
         public async Task<bool> AddBookAsync(AddPageViewModel addPageViewModel)
         {
+            var fileName = addPageViewModel.FileCopertina.FileName;
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "images", fileName);
+            
+            await using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await addPageViewModel.FileCopertina.CopyToAsync(stream);
+            }
+
+            var webPath = "/uploads/images/" + fileName;
+
             var book = new Book()
             {
                 Id = Guid.NewGuid(),
@@ -48,7 +58,7 @@ namespace S17L1.Services
                 Autore = addPageViewModel.Autore,
                 Genere = addPageViewModel.Genere,
                 Disponibilita = addPageViewModel.Disponibilita,
-                Copertina = addPageViewModel.Copertina
+                Copertina = webPath
             };
 
             _context.Books.Add(book);
@@ -88,12 +98,22 @@ namespace S17L1.Services
                 return false;
             }
 
+            var fileName = editPageViewModel.FileCopertina.FileName;
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "images", fileName);
+
+            await using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await editPageViewModel.FileCopertina.CopyToAsync(stream);
+            }
+
+            var webPath = "/uploads/images/" + fileName;
+
             book.Id = id;
             book.Titolo = editPageViewModel.Titolo;
             book.Autore = editPageViewModel.Autore;
             book.Genere = editPageViewModel.Genere;
             book.Disponibilita = editPageViewModel.Disponibilita;
-            book.Copertina = editPageViewModel.Copertina;
+            book.Copertina = webPath;
 
             return await SaveAsync();
         }

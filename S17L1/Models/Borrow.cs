@@ -15,8 +15,8 @@ namespace S17L1.Models
         [Required]
         public bool IsReturned { get; set; }
 
-        public User User { get; set; }
-        public Book Book { get; set; }
+        public User? User { get; set; }
+        public Book? Book { get; set; }
 
     }
 }
