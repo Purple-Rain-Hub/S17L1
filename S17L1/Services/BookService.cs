@@ -98,24 +98,76 @@ namespace S17L1.Services
                 return false;
             }
 
-            var fileName = editPageViewModel.FileCopertina.FileName;
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "images", fileName);
-
-            await using (var stream = new FileStream(path, FileMode.Create))
+            if (editPageViewModel.FileCopertina != null)
             {
-                await editPageViewModel.FileCopertina.CopyToAsync(stream);
-            }
+                if (!string.IsNullOrEmpty(book.Copertina))
+                {
+                    var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", book.Copertina.TrimStart('/'));
+                    if (File.Exists(oldImagePath))
+                    {
+                        File.Delete(oldImagePath);
+                    }
+                }
 
-            var webPath = "/uploads/images/" + fileName;
+                var fileName = editPageViewModel.FileCopertina.FileName;
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "images", fileName);
+
+                await using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await editPageViewModel.FileCopertina.CopyToAsync(stream);
+                }
+
+                book.Copertina = "/uploads/images/" + fileName;
+            }
 
             book.Id = id;
             book.Titolo = editPageViewModel.Titolo;
             book.Autore = editPageViewModel.Autore;
             book.Genere = editPageViewModel.Genere;
             book.Disponibilita = editPageViewModel.Disponibilita;
-            book.Copertina = webPath;
 
             return await SaveAsync();
         }
+
+        public async Task<bool> AddBorrow(Guid id, AddBorrowPageViewModel model)
+        {
+            var user = new User()
+            {
+                Id = Guid.NewGuid(),
+                Name = model.Name,
+                Surname = model.Surname,
+                Email = model.Email
+            };
+
+            _context.Users.Add(user);
+
+            var borrow = new Borrow()
+            {
+                UserId = user.Id,
+                BookId = id,
+                BorrowEndDate = model.BorrowEndDate
+            };
+
+            _context.Borrows.Add(borrow);
+
+            return await SaveAsync();
+        }
+
+        public async Task<BorrowPageViewModel> GetAllBorrows()
+        {
+            try
+            {
+                var borrowList = new BorrowPageViewModel();
+
+                borrowList.Borrows = await _context.Borrows.Include(b => b.User).Include(b=> b.Book).ToListAsync();
+
+                return borrowList;
+            }
+            catch
+            {
+                return new BorrowPageViewModel() { Borrows = new List<Borrow>() };
+            }
+        }
+
     }
 }

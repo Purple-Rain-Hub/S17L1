@@ -5,12 +5,20 @@
 
 <h1>Dettagli Libro</h1>
 <div class="d-flex">
-	<img src=@Model.Copertina width="200"/>
+	<img src=@Model.Copertina width="200" />
 	<div>
 		<h4>@Model.Titolo</h4>
 		<h6>di @Model.Autore</h6>
 		<h6>Genere: @Model.Genere</h6>
 		<p>@(Model.Disponibilita ? "Disponibile" : "Non disponibile")</p>
+		@if (Model.Disponibilita)
+		{
+			<a class="mx-1 btn btn-primary" asp-controller="Home" asp-action="AddBorrowPage" asp-route-id="@Model.Id">Prestito</a>
+		}
+		else
+		{
+			<button class="mx-1 btn btn-dark disabled">Prestito</button>
+		}
 		<a class="mx-1 btn btn-warning" asp-controller="Home" asp-action="EditPage" asp-route-id="@Model.Id">✏</a>
 		<a class="mx-1 btn btn-danger" asp-controller="Home" asp-action="Delete" asp-route-id="@Model.Id">❌</a>
 	</div>

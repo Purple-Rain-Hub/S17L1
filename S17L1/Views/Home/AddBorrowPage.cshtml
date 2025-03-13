@@ -1,0 +1,44 @@
+﻿@model AddBorrowPageViewModel
+@{
+	ViewData["Title"] = "BORROW PAGE";
+}
+
+<h1>Presta un libro</h1>
+@if (TempData["Error"] != null)
+{
+	<span class="text-danger">@TempData["Error"]</span>
+}
+@if(ViewData["Disponibilita"] != null && (bool)ViewData["Disponibilita"] == true){
+<div>
+	<form method="post" asp-controller="Home" asp-action="SaveBorrow" asp-route-id=@ViewData["Id"]>
+		<div class="formGroup">
+			<label for="borrowEndDate" asp-for="BorrowEndDate" class="form-label"></label>
+			<input id="borrowEndDate" asp-for="BorrowEndDate" type="date"/>
+			<span class="text-danger" asp-validation-for="BorrowEndDate"></span>
+		</div>
+		<div class="formGroup">
+			<label for="name" asp-for="Name" class="form-label"></label>
+			<input id="name" asp-for="Name" class="form-control" />
+			<span class="text-danger" asp-validation-for="Name"></span>
+		</div>
+		<div class="formGroup">
+			<label for="surname" asp-for="Surname" class="form-label"></label>
+			<input id="surname" asp-for="Surname" class="form-control" />
+			<span class="text-danger" asp-validation-for="Surname"></span>
+		</div>
+		<div class="formGroup">
+			<label for="email" asp-for="Email" class="form-label"></label>
+			<input id="email" asp-for="Email" type="email"/>
+			<span class="text-danger" asp-validation-for="Email"></span>
+		</div>
+		
+		<div class="m-2 text-end">
+			<button class="btn btn-sm btn-success" type="submit">Save</button>
+			<button class="btn btn-sm btn-warning" type="reset">Reset</button>
+		</div>
+	</form>
+</div>
+}
+else{
+	<span class="text-danger" >Prodotto non disponibile per il prestito</span>
+}

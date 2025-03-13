@@ -1,0 +1,46 @@
+﻿@model BorrowPageViewModel
+@{
+	ViewData["Title"] = "Borrow Page";
+}
+
+<div class="container">
+	<h1>Pagina Libri Prestati</h1>
+	@if (TempData["Error"] != null)
+	{
+		<span class="text-danger">@TempData["Error"]</span>
+	}
+	@if (Model.Borrows != null && Model.Borrows.Any())
+	{
+		<table class="table table-bordered table-hover">
+			<thead class="thead-dark ">
+				<tr class="text-center centroTab">
+					<th>Libro</th>
+					<th>Nome Utente</th>
+					<th>Cognome Utente</th>
+					<th>Data Prestito</th>
+					<th>Scadenza Prestito</th>
+					<th>Ritornato?</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var borrow in Model.Borrows)
+				{
+					<tr class="centroTab">
+						<td class="text-center">@borrow.Book.Titolo</td>
+						<td class="text-center">@borrow.User.Name</td>
+						<td class="text-center">@borrow.User.Surname</td>
+						<td class="text-center">@borrow.BorrowDate</td>
+						<td class="text-center">@borrow.BorrowEndDate.ToShortDateString()</td>
+						<td class="text-center">@(borrow.IsReturned ? "Ritornato" : "Non Ritornato")</td>
+						<td class=" d-flex border-0">
+							<a class="mx-1 btn btn-warning" asp-controller="Home" asp-action="EmailProva">Restituito</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
+	}
+</div>
+

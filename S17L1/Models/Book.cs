@@ -16,7 +16,6 @@ namespace S17L1.Models
         [Required]
         [StringLength(30)]
         public required string Genere { get; set; }
-        [Required]
         public bool Disponibilita { get; set; }
         public string? Copertina { get; set; }
 

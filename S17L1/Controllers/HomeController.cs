@@ -10,10 +10,12 @@ namespace S17L1.Controllers
     public class HomeController : Controller
     {
         private readonly BookService _bookService;
+        private readonly EmailService _emailService;
 
-        public HomeController(BookService bookService)
+        public HomeController(BookService bookService, EmailService emailService)
         {
             _bookService = bookService;
+            _emailService = emailService;
         }
 
         public async Task<IActionResult> Index()
@@ -103,6 +105,13 @@ namespace S17L1.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Guid id, EditPageViewModel model)
         {
+
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Errore nel modello del form";
+                return RedirectToAction("AddPage");
+            }
+
             var result = await _bookService.UpdateBook(id, model);
 
             if (!result)
@@ -110,6 +119,46 @@ namespace S17L1.Controllers
                 TempData["Error"] = "Errore nella modifica dell'entità sul Db";
             }
 
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> BorrowPage()
+        {
+            var borrowList = await _bookService.GetAllBorrows();
+            return View(borrowList);
+        }
+
+        public async Task<IActionResult> AddBorrowPage(Guid id)
+        {
+            ViewData["Id"] = id;
+            var book = await _bookService.GetBookById(id);
+            ViewData["Disponibilita"] = book.Disponibilita;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveBorrow(Guid id, AddBorrowPageViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Errore nel modello del form";
+                return RedirectToAction("AddPage");
+            }
+
+            var result = await _bookService.AddBorrow(id , model);
+
+            if (!result)
+            {
+                TempData["Error"] = "Errore nel salvataggio dell'entità sul Db";
+            }
+            
+            return RedirectToAction("BorrowPage");
+        }
+
+        public async Task<IActionResult> EmailProva()
+        {
+            await _emailService.SendEmailAsync();
             return RedirectToAction("Index");
         }
     }

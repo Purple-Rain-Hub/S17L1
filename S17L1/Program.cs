@@ -1,4 +1,6 @@
+using FluentEmail.MailKitSmtp;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using S17L1.Data;
 using S17L1.Services;
 
@@ -12,6 +14,21 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 );
 
 builder.Services.AddScoped<BookService>();
+
+builder.Services.AddFluentEmail(builder.Configuration.GetSection("MailSettings").GetValue<string>("FromDefault"))
+    .AddRazorRenderer()
+    .AddMailKitSender(new SmtpClientOptions() 
+    { 
+        Server= builder.Configuration.GetSection("MailSettings").GetValue<string>("Server"),
+        Port= builder.Configuration.GetSection("MailSettings").GetValue<int>("Port"),
+        User = builder.Configuration.GetSection("MailSettings").GetValue<string>("Username"),
+        Password = builder.Configuration.GetSection("MailSettings").GetValue<string>("Password"),
+        UseSsl = builder.Configuration.GetSection("MailSettings").GetValue<bool>("UseSsl"),
+        RequiresAuthentication = builder.Configuration.GetSection("MailSettings").GetValue<bool>("RequiresAuthentication")
+    });
+
+builder.Services.AddScoped<EmailService>();
+
 
 var app = builder.Build();
 

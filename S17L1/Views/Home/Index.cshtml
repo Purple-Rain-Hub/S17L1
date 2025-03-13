@@ -30,7 +30,7 @@
 						<td class="text-center">@book.Titolo</td>
 						<td class ="text-center">@book.Autore</td>
 						<td class="text-center">@book.Genere</td>
-						<td class="text-center">@book.Disponibilita</td>
+						<td class="text-center">@(book.Disponibilita ? "Disponibile" : "Non disponibile")</td>
 						<td class=" d-flex border-0">
 							<a class="mx-1 btn btn-warning" asp-controller="Home" asp-action="DetailsPage" asp-route-id="@book.Id">Dettagli</a>
 						</td>
